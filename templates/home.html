@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Угадай число{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="header">
+            <h1>Игра "Угадай число"</h1>
+        </div>
+        <a href="{% url 'new_game' session_id %}">Новая игра</a>
+        <br>
+        <a href="{% url 'games_list' %}">Отгадай число (список активных игр)</a>
+        <br>
+        <a href="{% url 'games_finished' %}">Уже отгадали (список завершенных игр)</a>
+    </div>
+
+{% endblock %}

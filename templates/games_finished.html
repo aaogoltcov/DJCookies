@@ -1,0 +1,15 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Угадай число - загадать число{% endblock %}
+{% block content %}
+
+    <h3>Список завершенных игр:</h3>
+    <ul>
+    {% for game in games%}
+        <li><a href="{% url 'game_finished' game.id %}">Игра {{ game.game_id }}</a></li>
+    {% endfor %}
+    </ul>
+    <a href="{% url 'home' %}">Главная страница</a>
+
+{% endblock %}

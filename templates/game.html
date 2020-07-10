@@ -1,0 +1,17 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Угадай число - загадать число{% endblock %}
+{% block content %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <input type="submit" value="Отгадай число"/>
+    </form>
+    <h6>{{ guess }}</h6>
+
+    <a href="{% url 'home' %}">Главная страница</a>
+
+{% endblock %}

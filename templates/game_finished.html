@@ -1,0 +1,13 @@
+{% extends "home.html" %}
+{% load static %}
+
+{% block title %}Угадай число - загадать число{% endblock %}
+{% block content %}
+
+    <h5>Игра: {{ games.game_id }}</h5>
+    <h5>Загаданное число: {{ games.number }}</h5>
+    <h5>Ваше число угадали с {{ games.trials }} попытки</h5>
+
+    <a href="{% url 'home' %}">Главная страница</a>
+
+{% endblock %}
