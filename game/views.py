@@ -4,10 +4,17 @@ from game.forms import NewGame, GamePlay
 from game.models import Player, Game, PlayerGameInfo
 
 
-def show_home(request):
+def get_session_id(request):
+    try:
+        return request.COOKIES['sessionid']
+    except KeyError:
+        return 'anonymous'
 
+
+def show_home(request):
     # Стартовая страница
-    return render(request, 'home.html', {'session_id': request.COOKIES['sessionid'], }, )
+
+    return render(request, 'home.html', {'session_id': get_session_id(request), }, )
 
 
 def new_game(request, session_id):
@@ -38,9 +45,9 @@ def game_created(request, game_id):
 
 def games_list(request):
 
-    # Вывод списка активных игр
+    # Вывод списка активных игр, отображаются игры, которые созданы другим пользователем
     try:
-        games = Game.objects.filter(is_finished=False).exclude(players__player_id=request.COOKIES['sessionid']).values('id', 'game_id')
+        games = Game.objects.filter(is_finished=False).exclude(players__player_id=get_session_id(request)).values('id', 'game_id')
     except IndexError:
         games = []
 
@@ -51,7 +58,7 @@ def games_list(request):
 
 def games_finished(request):
 
-    # Вывод списка завершенных игр
+    # Вывод списка всех завершенных игр
     try:
         games = Game.objects.filter(is_finished=True).values('id', 'game_id')
     except IndexError:
@@ -67,7 +74,6 @@ def game_finished(request, game_id):
     # Вывод завершенной игры
     try:
         games = Game.objects.filter(id=game_id).values('game_id', 'number', 'trials', )
-        print(games)
     except IndexError:
         games = []
 
@@ -78,7 +84,7 @@ def game_finished(request, game_id):
 
 def game(request, game_id):
     form = GamePlay()
-    session_id = request.COOKIES['sessionid']
+    session_id = get_session_id(request)
 
     # Получение данных с формы
     if request.method == 'POST':
